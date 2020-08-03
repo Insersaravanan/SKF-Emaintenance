@@ -1,0 +1,123 @@
+<html>
+<head>
+	<title>Maps</title>
+	<style type="text/css">
+		/* Set the size of the div element that contains the map */
+		.map {
+		  height: 400px;  /* The height is 400 pixels */
+		  width: 49%;  /* The width is the width of the web page */
+		  margin: 2px;
+		  border: 1px solid;
+		 }
+	</style>
+</head>
+<body>
+	<h3>My Google Maps Demo</h3>
+<!--The div element for the map -->
+<div style="display: flex;">
+<div id="map" class="map"></div>
+<div id="map1" class="map"></div>
+</div>
+<!-- Replace the value of the key parameter with your own API key. -->
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-75P0it_ao62wVy-9Mop9wxTXL-093cw&callback=initMap">
+</script>
+
+<script type="text/javascript">
+	function initMap() {
+  // The location of Uluru
+  var india = {lat: 20.5937, lng: 78.9629};
+
+  var singapore={lat: 1.3521, lng: 103.8198}
+  // The map, centered at Uluru
+  var map = new google.maps.Map(
+      document.getElementById('map'), {zoom: 4, center: india,
+      	//gestureHandling: 'none',
+      	zoomControl: false});
+
+  var map1 = new google.maps.Map(
+      document.getElementById('map1'), {zoom: 10, center: singapore,
+      	//gestureHandling: 'none',
+      	zoomControl: false});
+  // The marker, positioned at Uluru
+ //var marker = new google.maps.Marker({position: uluru, map: map});
+ var chennai = {lat: 13.0827, lng: 80.2707};
+ var mumbai = {lat: 19.0760, lng: 72.8777};
+ var delhi = {lat: 28.7041, lng: 77.1025};
+ var pune = {lat: 18.5204, lng: 73.8567};
+
+ var tengah = {lat: 1.3555, lng: 103.7308};
+ var yishun = {lat: 1.4304, lng: 103.8354};
+ var kranji  = {lat: 1.4214, lng: 103.7475};
+ var jurong = {lat: 1.3329, lng: 103.7436};
+
+
+ var marker4 = new google.maps.Marker({position: tengah,
+     icon: {
+      url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+    } ,map: map1});
+
+  var marker5 = new google.maps.Marker({position: yishun,
+     icon: {
+      url: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
+    } ,map: map1});
+
+   var marker6 = new google.maps.Marker({position: kranji,
+     icon: {
+      url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+    } ,map: map1});
+
+    var marker7 = new google.maps.Marker({position: jurong,
+     icon: {
+      url: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
+    } ,map: map1});
+
+  marker4.addListener("click", function() {
+    alert("tengah")
+  });
+
+    marker5.addListener("click", function() {
+    alert("yishun")
+  });
+      marker6.addListener("click", function() {
+    alert("kranji")
+  });
+        marker7.addListener("click", function() {
+    alert("jurong")
+  });
+
+
+ var marker = new google.maps.Marker(
+ 	{
+ 	position: chennai,    
+ 	icon: {
+      url: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
+    } ,map: map});
+ var marker1 = new google.maps.Marker({position: mumbai,
+     icon: {
+      url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+    } ,map: map});
+ var marker2 = new google.maps.Marker({position: delhi,
+     icon: {
+      url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+    } ,map: map});
+ var marker3 = new google.maps.Marker({position: pune,    icon: {
+      url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+    } ,map: map});
+
+  marker.addListener("click", function() {
+    alert("chennai")
+  });
+    marker1.addListener("click", function() {
+    alert("mumbai")
+  });
+      marker2.addListener("click", function() {
+    alert("delhi")
+  });
+        marker3.addListener("click", function() {
+    alert("pune")
+  });
+}
+</script>
+	</body>
+</html>
