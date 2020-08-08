@@ -181,6 +181,23 @@ namespace EMaintanance.Repository
             }
         }
 
+        public async Task<IEnumerable<dynamic>> GetLookupBySSNameAndType(int LanguageId, string LName, string LType)
+        {
+            string sql = "dbo.[EAppListLookupsByType]";
+            string Status = "Y";
+            using (var conn = util.MasterCon())
+            {
+                try
+                {
+                    return await (conn.QueryAsync<dynamic>(sql, new { LanguageId, Status, LName, LType }, commandType: CommandType.StoredProcedure));
+                }
+                catch (Exception ex)
+                {
+                    throw new CustomException("Unable to Load Data, Please Contact Support!!!", "Error", true, ex);
+                }
+            }
+        }
+
 
 
     }
