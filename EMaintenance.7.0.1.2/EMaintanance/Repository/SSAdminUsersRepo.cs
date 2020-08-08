@@ -38,7 +38,7 @@ namespace EMaintanance.Repository
             }
         }
 
-        public async Task<IEnumerable<dynamic>> GetUsersByParams(UsersViewModel u)
+        public async Task<IEnumerable<dynamic>> GetUsersByParams(SSAdminUsersViewModel u)
         {
             string sql = "dbo.EAppListUsers";
             using (var conn = util.MasterCon())
@@ -103,7 +103,7 @@ namespace EMaintanance.Repository
             }
         }
 
-        public async Task<IEnumerable<dynamic>> SaveOrUpdate(UsersViewModel u, UserManager<IdentityUser> identityManager)
+        public async Task<IEnumerable<dynamic>> SaveOrUpdate(SSAdminUsersViewModel u, UserManager<IdentityUser> identityManager)
         {
             ApplicationConfigurationViewModel appConfig = null;
             Boolean IsUserActivationEnable = true;
@@ -220,7 +220,7 @@ namespace EMaintanance.Repository
 
                 using (var conn = util.MasterCon())
                 {
-                    var user = await conn.QueryFirstOrDefaultAsync<UsersViewModel>(getSql);
+                    var user = await conn.QueryFirstOrDefaultAsync<SSAdminUsersViewModel>(getSql);
 
                     if (user.Active == "N")
                     {
@@ -256,12 +256,21 @@ namespace EMaintanance.Repository
             }
         }
 
-        public async Task<UsersViewModel> GetUserObject(int? id)
+        public async Task<SSAdminUsersViewModel> GetUserObject(int? id)
         {
             string sql = "SELECT * from dbo.Users where UserId=" + id;
             using (var conn = util.MasterCon())
             {
-                return await conn.QueryFirstOrDefaultAsync<UsersViewModel>(sql);
+                return await conn.QueryFirstOrDefaultAsync<SSAdminUsersViewModel>(sql);
+            }
+        }
+
+        public async Task<IEnumerable<dynamic>> GetAllSSAdminUsers()
+        {
+            string sql = "SELECT UserId as id,* from dbo.Users";
+            using (var conn = util.MasterCon())
+            {
+                return await conn.QueryAsync<dynamic>(sql);
             }
         }
 
