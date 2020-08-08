@@ -27,7 +27,7 @@ app.controller('skfCtrl', function ($scope, $filter, uiGridConstants, uiGridPinn
             cellTemplate: '<div class="ui-grid-cell-contents">' +
                 '<a ng-click="grid.appScope.editRow(row.entity) || grid.appScope.toggleCreate()" <i class="fa fa-pencil-square-o icon-space-before" tooltip-append-to-body="true" uib-tooltip={{"EditUser"|translate}} tooltip-class="customClass"></i></a>' +
                 '<a ng-click="grid.appScope.loadrelData(row.entity)" <i class="fa fa-link icon-space-before" tooltip-append-to-body="true" uib-tooltip={{"UserRoleGroupRelation"|translate}}  tooltip-class="customClass"></i></a>' +
-                '<a ng-click="grid.appScope.UserSiteAccess(row.entity)" <i class="fa fa-sitemap icon-space-before" tooltip-append-to-body="true" uib-tooltip={{"UserSiteAccess"|translate}} tooltip-class="customClass"></i></a>' +
+                '<a ng-click="grid.appscope.SSAdminUsersiteAccess(row.entity)" <i class="fa fa-sitemap icon-space-before" tooltip-append-to-body="true" uib-tooltip={{"UserSiteAccess"|translate}} tooltip-class="customClass"></i></a>' +
                 '</div>',
             width: "9%",
             minWidth: 100
@@ -39,9 +39,9 @@ app.controller('skfCtrl', function ($scope, $filter, uiGridConstants, uiGridPinn
         $scope.isCreate = false;
         $scope.isSearch = false;
         $scope.clearModal();
-        $scope.Users.UserTypeId = row.UserTypeId;
-        $scope.Users.UserStatusId = row.UserStatusId;
-        $scope.Users = row;
+        $scope.SSAdminUsers.UserTypeId = row.UserTypeId;
+        $scope.SSAdminUsers.UserStatusId = row.UserStatusId;
+        $scope.SSAdminUsers = row;
     };
 
     $scope.clearOut = function () {
@@ -64,17 +64,17 @@ app.controller('skfCtrl', function ($scope, $filter, uiGridConstants, uiGridPinn
     };
 
     $scope.validateDomain = function () {
-        if ($scope.Users.UserName.length > 0) {
-            var domain = $scope.Users.UserName.replace(/.*@/, "");
+        if ($scope.SSAdminUsers.UserName.length > 0) {
+            var domain = $scope.SSAdminUsers.UserName.replace(/.*@/, "");
             if (domain.length > 0) {
-                if (domain.toUpperCase() == "SKF.COM") {
+                if (domain.toUpperCase() === "SKF.COM") {
                     angular.forEach($scope.UserTypeDDL, function (val, i) {
-                        if (val.LookupCode == 'IUSR') {
-                            $scope.Users.UserTypeId = val.LookupId;
+                        if (val.LookupCode === 'IUSR') {
+                            $scope.SSAdminUsers.UserTypeId = val.LookupId;
                         }
                     });
                 } else {
-                    $scope.Users.UserTypeId = null;
+                    $scope.SSAdminUsers.UserTypeId = null;
                 }
             }
         }
@@ -92,7 +92,7 @@ app.controller('skfCtrl', function ($scope, $filter, uiGridConstants, uiGridPinn
     $scope.clearModal = function () {
         $scope.readOnlyPage = false;
         $scope.isProcess = false;
-        $scope.Users = {
+        $scope.SSAdminUsers = {
             LookupId: 0,
             UserId: 0,
             LanguageId: $scope.language.LanguageId,
@@ -159,8 +159,8 @@ app.controller('skfCtrl', function ($scope, $filter, uiGridConstants, uiGridPinn
         enableSelectAll: false,
         exporterMenuPdf: false,
         exporterMenuCsv: false,
-        exporterExcelFilename: 'EMaintenance_Users.xlsx',
-        exporterExcelSheetName: 'EMaintenance_Users',
+        exporterExcelFilename: 'SSAdminUsers.xlsx',
+        exporterExcelSheetName: 'SSAdminUsers',
         exporterExcelCustomFormatters: function (grid, workbook, docDefinition) {
 
             var stylesheet = workbook.getStyleSheet();
@@ -241,7 +241,7 @@ app.controller('skfCtrl', function ($scope, $filter, uiGridConstants, uiGridPinn
         $scope.S_Users.languageId = $scope.language.LanguageId;
         $scope.gridOpts.data = [];
         $scope.isPageLoad = true;
-        var postUrl = "/Users/Search";
+        var postUrl = "/SSAdminUsers/Search";
         if ($scope.S_Users._UserTypeId) {
             $scope.S_Users.UserTypeId = parseInt($scope.S_Users._UserTypeId);
         } else {
@@ -269,7 +269,7 @@ app.controller('skfCtrl', function ($scope, $filter, uiGridConstants, uiGridPinn
     };
 
     $scope.loadUserType = function (data) {
-        var _url = "/Lookup/GetLookupByNameAndType?lId=" + $scope.language.LanguageId + "&lName=UserType&AType=1";
+        var _url = "/Lookup/GetLookupBySSNameAndType?lId=" + $scope.language.LanguageId + "&LName=SSUserType&LType=1";
         $http.get(_url)
             .then(function (response) {
                 $scope.UserTypeDDL = response.data;
@@ -277,10 +277,10 @@ app.controller('skfCtrl', function ($scope, $filter, uiGridConstants, uiGridPinn
     };
 
     $scope.loadUserStatus = function (data) {
-        var _url = "/Lookup/GetLookupByNameAndType?lId=" + $scope.language.LanguageId + "&lName=UserStatus&AType=1";
+        var _url = "/Lookup/GetLookupBySSNameAndType?lId=" + $scope.language.LanguageId + "&LName=UserStatus&LType=1";
         $http.get(_url)
             .then(function (response) {
-                $scope.UserStatusDDL = response.data;
+                $scope.SSAdminUserstatusDDL = response.data;
             });
     };
 
@@ -288,7 +288,7 @@ app.controller('skfCtrl', function ($scope, $filter, uiGridConstants, uiGridPinn
     $scope.$watch(function () {
         return languageFactory.getLanguage();
     }, function (newValue, oldValue) {
-        if (newValue != oldValue && newValue) {
+        if (newValue !== oldValue && newValue) {
             $scope.language = newValue; $rootScope.lang = $scope.language.CountryCode;
             $translate.use($scope.language.CountryCode);
             $scope.loadData();
@@ -303,9 +303,9 @@ app.controller('skfCtrl', function ($scope, $filter, uiGridConstants, uiGridPinn
     $scope.save = function () {
         if ($scope.userForm.$valid && !($scope.isProcess) && !($scope.readOnlyPage)) {
             $scope.isProcess = true;
-            var postUrl = "/Users/Create";
+            var postUrl = "/SSAdminUsers/Create";
 
-            $http.post(postUrl, JSON.stringify($scope.Users)).then(function (response) {
+            $http.post(postUrl, JSON.stringify($scope.SSAdminUsers)).then(function (response) {
                 if (response.data) {
                     if (response.data.toString().indexOf("<!DOCTYPE html>") >= 0) {
                         alertFactory.setMessage({
@@ -337,8 +337,8 @@ app.controller('skfCtrl', function ($scope, $filter, uiGridConstants, uiGridPinn
     $scope.update = function () {
         if ($scope.userForm.$valid && !($scope.isProcess) && !($scope.readOnlyPage)) {
             $scope.isProcess = true;
-            var postUrl = "/Users/Update/";
-            $http.post(postUrl, JSON.stringify($scope.Users)).then(function (response) {
+            var postUrl = "/SSAdminUsers/Update/";
+            $http.post(postUrl, JSON.stringify($scope.SSAdminUsers)).then(function (response) {
                 if (response.data) {
                     alertFactory.setMessage({
                         msg: "Data updated Successfully"
@@ -388,7 +388,7 @@ app.controller('skfCtrl', function ($scope, $filter, uiGridConstants, uiGridPinn
             });
     }
 
-    $scope.UserSiteAccess = function (row) {
+    $scope.SSAdminUsersiteAccess = function (row) {
         var modalInstance = $uibModal.open({
             templateUrl: 'skfUsersiteAccess.html',
             controller: 'skfUsersiteAccessCtrl',
@@ -1087,7 +1087,7 @@ app.controller('skfImportModalCtrl', function ($scope, alertFactory, $timeout, $
         //postData.LanguageId = params.language.LanguageId;
         //postData.Flag = 'Save';
         postData = $scope.SaveDataQueue.splice(0, chunk);
-        var postUrl = "/Users/Import";
+        var postUrl = "/SSAdminUsers/Import";
         $http.post(postUrl, JSON.stringify(postData)).then(function (response) {
             if (response.data) {
                 alertFactory.setMessage({
