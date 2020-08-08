@@ -5942,7 +5942,7 @@ ul.tree-structure, ul.tree-structure ul {
 
 .observer-dashboard .plot-section {
     overflow: auto;
-    height: 342px;
+    height: auto;
     /*width: 600px;*/
     width: 750px;
     position: relative;
