@@ -209,5 +209,24 @@ namespace EMaintanance.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetLookupBySSNameAndType(int lId, string LName, string LType)
+        {
+            try
+            {
+                return Ok(await lookupRepo.GetLookupBySSNameAndType(lId, LName, LType));
+            }
+            catch (CustomException cex)
+            {
+                var responseObj = new EmaintenanceMessage(cex.Message, cex.Type, cex.IsException, cex.Exception?.ToString());
+                return StatusCode(StatusCodes.Status500InternalServerError, responseObj);
+            }
+            catch (Exception ex)
+            {
+                return Ok(new EmaintenanceMessage(ex.Message));
+            }
+        }
+
+
     }
 }

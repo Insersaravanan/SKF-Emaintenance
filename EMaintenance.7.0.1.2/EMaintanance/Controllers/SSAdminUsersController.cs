@@ -60,7 +60,7 @@ namespace EMaintanance.Controllers
 
         [HttpPost]
         [SKFAuthorize("PRG02:P1")]
-        public async Task<IActionResult> Search([FromBody]  UsersViewModel u)
+        public async Task<IActionResult> Search([FromBody]  SSAdminUsersViewModel u)
         {
             try
             {
@@ -119,7 +119,7 @@ namespace EMaintanance.Controllers
 
         [HttpPost]
         [SKFAuthorize("PRG02:P3")]
-        public async Task<IActionResult> Update([FromBody] UsersViewModel u)
+        public async Task<IActionResult> Update([FromBody] SSAdminUsersViewModel u)
         {
             try
             {
@@ -139,7 +139,7 @@ namespace EMaintanance.Controllers
 
         [HttpPost]
         [SKFAuthorize("PRG02:P2")]
-        public async Task<IActionResult> Create([FromBody] UsersViewModel u)
+        public async Task<IActionResult> Create([FromBody] SSAdminUsersViewModel u)
         {
             try
             {
@@ -163,12 +163,12 @@ namespace EMaintanance.Controllers
 
         [HttpPost]
         [SKFAuthorize("PRG02:P6")]
-        public async Task<IActionResult> Import([FromBody] List<UsersViewModel> uvms)
+        public async Task<IActionResult> Import([FromBody] List<SSAdminUsersViewModel> uvms)
         {
             try
             {
                 CurrentUser cUser = new CurrentUser(HttpContext, _configuration);
-                foreach (UsersViewModel u in uvms)
+                foreach (SSAdminUsersViewModel u in uvms)
                 {
                     if(u.UserName != null && u.UserName !="")
                     {
