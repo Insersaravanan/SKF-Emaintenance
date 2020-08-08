@@ -88,7 +88,7 @@
                     <div class="col-md-3 col-sm-6 input-field">
                         <label class="control-label">{{'User Status' | translate}}</label>
                         <select ng-model="SSAdminUsers.UserStatusId" class="form-control search-input" name="UserType"
-                                ng-options="value.LookupId as value.LValue for (key, value) in UserStatusDDL"></select>
+                                ng-options="value.LookupId as value.LValue for (key, value) in SSAdminUserstatusDDL"></select>
                     </div>
                     <div class="col-md-3 col-sm-6 input-field">
                         <label class="control-label">{{'Mobile' | translate}}*</label>
@@ -129,10 +129,10 @@
     <script src="~/lib/angular/ui-grid/import/xlsx.full.min.js"></script>
     <script src="~/lib/angular/ui-grid/import/ods.js"></script>
     <environment include="Development">
-        <script src="~/js/users/index.js" asp-append-version="true"></script>
+        <script src="~/js/SSAdminUsers/index.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
-        <script src="~/js/users/index.min.js" asp-append-version="true"></script>
+        <script src="~/js/SSAdminUsers/" asp-append-version="true"></script>
     </environment>
 }
 
