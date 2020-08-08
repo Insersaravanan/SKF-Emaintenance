@@ -10,15 +10,15 @@
             <div class="upper-section">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 filter-settings first-section menu-section">
                     @*<div class="col-md-2 col-sm-2 col-xs-2 input-field country-dropdown ">
-                        <ui-select ng-model="Dropdown.CountryId" theme="bootstrap" on-select="loadDashboardFilter(Dropdown.CountryId, 'CL')">
-                            <ui-select-match placeholder="Select Country...">
-                                {{$select.selected.ListName}}
-                            </ui-select-match>
-                            <ui-select-choices repeat="country.ListId as country in CountryDDL | propsFilter: {ListName: $select.search}">
-                                <div ng-bind-html="country.ListName | highlight: $select.search"></div>
-                            </ui-select-choices>
-                        </ui-select>
-                    </div>*@
+                            <ui-select ng-model="Dropdown.CountryId" theme="bootstrap" on-select="loadDashboardFilter(Dropdown.CountryId, 'CL')">
+                                <ui-select-match placeholder="Select Country...">
+                                    {{$select.selected.ListName}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="country.ListId as country in CountryDDL | propsFilter: {ListName: $select.search}">
+                                    <div ng-bind-html="country.ListName | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>*@
                     <div class="col-md-3 col-sm-2 col-xs-2 input-field country-dropdown ">
                         <select name="repeatSelect" id="repeatSelect"
                                 ng-options="option.CountryName for option in countryMapSelect track by option.CountryId"
@@ -96,11 +96,14 @@
         <div class="chart-container">
             <div class="row map-img-section">
                 <div class="col-lg-6 first-part">
-                    <div ng-hide="S_dashboard.Type !== 'PL'" class="plot-section" ng-class="{'loading': isloading === true}">
+                    <div ng-hide="S_dashboard.Type !== 'PL' || Dropdown.CountryId != 4" class="plot-section sing-img" ng-class="{'loading': isloading === true}">
+                        <img src="~/images/Singapore-port.jpg" style="width:100%">
+                    </div>
+                    <div ng-hide="S_dashboard.Type !== 'PL' && Dropdown.CountryId == 4" class="plot-section" ng-class="{'loading': isloading === true}">
                         <!-- <div class="map-chart">
-         <div id="mapdiv"></div>
-     </div>-->
-                        <div id="g-map"></div>
+                            <div id="mapdiv"></div>
+                        </div>-->
+                        <div id="g-map" ng-hide="Dropdown.CountryId == 4"></div>
                     </div>
                     <div ng-hide="S_dashboard.Type === 'PL'" ng-class="{'loading': isloading === true}">
                         <h5 class="text-primary dashboard-typename"><span class="clname"><strong>Client Name - </strong>{{ClName}}</span> <span class="disname"> <strong>{{displayType}}</strong> - {{displayName}}</span></h5>
